@@ -1,0 +1,7 @@
+function bigToSmall(arr) {
+  const flatArr = [].concat(...arr);
+
+  flatArr.sort((a, b) => b - a);
+
+  return flatArr.join(">");
+}
