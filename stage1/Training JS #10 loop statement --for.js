@@ -1,5 +1,5 @@
 function pickIt(arr) {
-  let odd = [],
+  const odd = [],
     even = [];
   for (let i = 0; i < arr.length; i++) {
     if (arr[i] % 2 === 0) {

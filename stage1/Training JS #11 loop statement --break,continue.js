@@ -1,5 +1,5 @@
 function grabDoll(dolls) {
-  var bag = [];
+  const bag = [];
 
   for (let i = 0; i < dolls.length; i++) {
     if (bag.length === 3) {

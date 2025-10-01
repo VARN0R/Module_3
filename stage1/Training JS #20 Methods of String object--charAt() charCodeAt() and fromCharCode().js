@@ -2,7 +2,7 @@ function topSecret(str) {
   let result = "";
 
   for (let char of str) {
-    let code = char.charCodeAt(0);
+    const code = char.charCodeAt(0);
 
     if (code >= 65 && code <= 90) {
       result += String.fromCharCode(((code - 65 - 3 + 26) % 26) + 65);

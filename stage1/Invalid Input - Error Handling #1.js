@@ -1,5 +1,7 @@
 function getCount(input) {
-  if (typeof input !== "string") return { vowels: 0, consonants: 0 };
+  if (typeof input !== "string") {
+    return { vowels: 0, consonants: 0 };
+  }
 
   const str = input.toLowerCase();
 
