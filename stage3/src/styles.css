@@ -106,6 +106,7 @@ header {
   display: flex;
   flex-direction: column;
   gap: 5px;
+  position: relative;
 }
 
 .form-group label {
@@ -226,8 +227,149 @@ header {
   padding: 20px;
   color: #666;
   font-style: italic;
+  position: relative;
+  overflow: hidden;
 }
 
 .loading-indicator.hidden {
   display: none;
+}
+
+.preview-container {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  background: #f8f9fa;
+  position: relative;
+}
+
+.preview-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.preview-placeholder {
+  text-align: center;
+  color: #666;
+  font-size: 18px;
+}
+
+.preview-placeholder.hidden {
+  display: none;
+}
+
+.preview-image {
+  max-width: 100%;
+  max-height: calc(100% - 100px);
+  object-fit: contain;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  display: block;
+  margin: 0 auto;
+}
+
+.preview-controls {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  gap: 10px;
+}
+
+.preview-controls button {
+  background: var(--red-color);
+  color: var(--white-color);
+  border: none;
+  width: 40px;
+  height: 40px;
+  padding: 7px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 1;
+  transition: background-color 0.2s;
+}
+
+.preview-controls button:hover {
+  background: var(--red-hover-color);
+}
+
+.preview-controls button:disabled {
+  background: rgba(0, 0, 0, 0.3);
+  cursor: not-allowed;
+}
+
+.preview-navigation {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 20px;
+}
+
+.preview-navigation button {
+  background: var(--red-color);
+  color: var(--white-color);
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  transition: background-color 0.2s;
+}
+
+.preview-navigation button:hover:not(:disabled) {
+  background: var(--red-hover-color);
+}
+
+.preview-navigation button:disabled {
+  background: var(--red-hover-color);
+  cursor: not-allowed;
+}
+
+.drag-coordinates {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 10px 15px;
+  border-radius: 4px;
+  font-family: monospace;
+  font-size: 12px;
+  z-index: 1001;
+  display: none;
+}
+
+.drag-coordinates.visible {
+  display: block;
+}
+
+.preview-container.drag-over {
+  background-color: rgba(0, 123, 255, 0.1);
+  border: 2px dashed var(--red-color);
+}
+
+.preview-container.drag-over::before {
+  content: "Drop image here to preview";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--red-color);
+  font-size: 18px;
+  font-weight: bold;
+  z-index: 10;
+  pointer-events: none;
 }
