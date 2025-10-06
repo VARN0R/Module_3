@@ -1,11 +1,15 @@
-import { dragCoordinates, previewContainer } from "./constants.js";
+import {
+  dragCoordinates,
+  previewContainer,
+  imageListContainer,
+} from "./constants.js";
 import { state } from "./state.js";
 
 export function createDragDrop(imageList, previewArea, onImageSelect) {
   function setupEventListeners() {
-    document.addEventListener("dragstart", handleDragStart);
-    document.addEventListener("drag", handleDrag);
-    document.addEventListener("dragend", handleDragEnd);
+    imageListContainer.addEventListener("dragstart", handleDragStart);
+    imageListContainer.addEventListener("drag", handleDrag);
+    imageListContainer.addEventListener("dragend", handleDragEnd);
 
     previewContainer.addEventListener("dragover", handleDragOver);
     previewContainer.addEventListener("drop", handleDrop);
@@ -36,7 +40,7 @@ export function createDragDrop(imageList, previewArea, onImageSelect) {
   function handleDrag(e) {
     const isOverPreview = previewArea.isPointInPreviewArea(
       e.clientX,
-      e.clientY,
+      e.clientY
     );
 
     if (!state.draggedElement) {
