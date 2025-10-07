@@ -1,0 +1,441 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --red-color: red;
+  --red-hover-color: rgb(100, 7, 7);
+  --white-color: #fff;
+  --grey-color: #333;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: var(--white-color);
+  color: var(--grey-color);
+  height: 100vh;
+  overflow: hidden;
+}
+
+header {
+  height: 80px;
+  width: 100%;
+  box-shadow: 0 4px 10px rgba(1, 11, 21, 0.5);
+  padding: 20px;
+  display: flex;
+}
+
+.logo-img {
+  width: 30px;
+  height: 30px;
+  display: inline-block;
+}
+
+.logo-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.logo-wrapper {
+  font-size: 30px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+}
+
+.open-modal-button {
+  padding: 10px 20px;
+  border-radius: 12px;
+  border: none;
+  background-color: var(--red-color);
+  color: var(--white-color);
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  margin-left: 20px;
+}
+
+.open-modal-button:hover {
+  background-color: var(--red-hover-color);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+}
+
+.modal-window {
+  display: none;
+  position: fixed;
+  background-color: var(--white-color);
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50%;
+  z-index: 1000;
+}
+
+.modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 999;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.add-image-form {
+  background: var(--white-color);
+  padding: 15px 20px;
+  display: flex;
+  gap: 20px;
+  align-items: end;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  position: relative;
+}
+
+.form-group label {
+  font-weight: bold;
+  color: #555;
+}
+
+.form-group input {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: var(--red-color);
+}
+
+.add-image-form button {
+  background-color: var(--red-color);
+  color: var(--white-color);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  height: fit-content;
+  transition: background-color 0.2s;
+}
+
+.add-image-form button:hover {
+  background-color: var(--red-hover-color);
+}
+
+.gallery-container {
+  display: flex;
+  height: calc(100vh - 80px);
+  background: var(--white-color);
+  position: relative;
+  overflow: hidden;
+}
+
+.image-list-container {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+}
+
+.image-grid {
+  flex: 1;
+  padding: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+  align-content: start;
+  overflow-y: auto;
+  height: 100%;
+}
+
+.image-card {
+  background: var(--white-color);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.2s;
+  position: relative;
+  user-select: none;
+  display: flex;
+  flex-direction: column;
+  height: 250px;
+}
+
+.image-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.image-card.active {
+  border: 3px solid var(--red-color);
+}
+
+.image-card.dragging {
+  opacity: 0.7;
+  transform: rotate(5deg);
+  z-index: 1000;
+}
+
+.image-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+  border-radius: 4px 4px 0 0;
+}
+
+.image-card .image-name {
+  padding: 10px;
+  text-align: center;
+  font-weight: bold;
+  color: #555;
+  background: #f8f9fa;
+  border-top: 1px solid #e9ecef;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  font-size: 14px;
+}
+
+.loading-indicator {
+  text-align: center;
+  padding: 20px;
+  color: #666;
+  font-style: italic;
+  position: relative;
+  overflow: hidden;
+}
+
+.loading-indicator.hidden {
+  display: none;
+}
+
+.resize-handle {
+  width: 10px;
+  background: #e9ecef;
+  cursor: col-resize;
+  position: relative;
+  transition: background-color 0.2s;
+  min-width: 10px;
+}
+
+.resize-handle:hover {
+  background: var(--red-color);
+}
+
+.resize-handle::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 2px;
+  height: 20px;
+  background: #999;
+  border-radius: 1px;
+}
+
+.preview-container {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  background: #f8f9fa;
+  position: relative;
+}
+
+.preview-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.preview-placeholder {
+  text-align: center;
+  color: #666;
+  font-size: 18px;
+}
+
+.preview-placeholder.hidden {
+  display: none;
+}
+
+.preview-image {
+  max-width: 100%;
+  max-height: calc(100% - 100px);
+  object-fit: contain;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  display: block;
+  margin: 0 auto;
+}
+
+.preview-controls {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  gap: 10px;
+}
+
+.preview-controls button {
+  background: var(--red-color);
+  color: var(--white-color);
+  border: none;
+  width: 40px;
+  height: 40px;
+  padding: 7px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 1;
+  transition: background-color 0.2s;
+}
+
+.preview-controls button:hover {
+  background: var(--red-hover-color);
+}
+
+.preview-controls button:disabled {
+  background: rgba(0, 0, 0, 0.3);
+  cursor: not-allowed;
+}
+
+.preview-navigation {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 20px;
+}
+
+.preview-navigation button {
+  background: var(--red-color);
+  color: var(--white-color);
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  transition: background-color 0.2s;
+}
+
+.preview-navigation button:hover:not(:disabled) {
+  background: var(--red-hover-color);
+}
+
+.preview-navigation button:disabled {
+  background: var(--red-hover-color);
+  cursor: not-allowed;
+}
+
+.scroll-to-top {
+  position: absolute;
+  bottom: 30px;
+  right: 30px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: var(--red-color);
+  color: var(--white-color);
+  border: none;
+  cursor: pointer;
+  font-size: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: all 0.2s ease;
+  z-index: 1000;
+}
+
+.scroll-to-top:hover {
+  background: var(--red-hover-color);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+.scroll-to-top:active {
+  transform: scale(0.95);
+}
+
+.drag-coordinates {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 10px 15px;
+  border-radius: 4px;
+  font-family: monospace;
+  font-size: 12px;
+  z-index: 1001;
+  display: none;
+}
+
+.drag-coordinates.visible {
+  display: block;
+}
+
+.preview-container.drag-over {
+  background-color: rgba(0, 123, 255, 0.1);
+  border: 2px dashed var(--red-color);
+}
+
+.preview-container.drag-over::before {
+  content: "Drop image here to preview";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--red-color);
+  font-size: 18px;
+  font-weight: bold;
+  z-index: 10;
+  pointer-events: none;
+}
+
+body.resizing {
+  cursor: col-resize !important;
+  user-select: none;
+}
+
+body.resizing * {
+  cursor: col-resize !important;
+}
+
+.notification {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+}
