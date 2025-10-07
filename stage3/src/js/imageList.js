@@ -51,7 +51,7 @@ export function createImageList(imageManager, onImageSelect) {
   function renderImages(images) {
     images.forEach((image, idx) => {
       const existingCard = imageGrid.querySelector(
-        `[data-image-id="${image.id}"]`,
+        `[data-image-id="${image.id}"]`
       );
 
       if (existingCard) {
@@ -100,7 +100,7 @@ export function createImageList(imageManager, onImageSelect) {
   function selectImage(imageId) {
     if (state.activeImageId) {
       const previousCard = imageGrid.querySelector(
-        `[data-image-id="${state.activeImageId}"]`,
+        `[data-image-id="${state.activeImageId}"]`
       );
 
       if (previousCard) {
@@ -127,7 +127,7 @@ export function createImageList(imageManager, onImageSelect) {
 
   function addNewImage(image) {
     const existingCard = imageGrid.querySelector(
-      `[data-image-id="${image.id}"]`,
+      `[data-image-id="${image.id}"]`
     );
 
     if (existingCard) {
@@ -177,6 +177,10 @@ export function createImageList(imageManager, onImageSelect) {
     await loadInitialImages();
   }
 
+  function destroy() {
+    state.observer.disconnect();
+  }
+
   setupIntersectionObserver();
   setupScrollToTop();
   loadInitialImages();
@@ -192,5 +196,6 @@ export function createImageList(imageManager, onImageSelect) {
     getImageCard,
     clear,
     reload,
+    destroy,
   };
 }

@@ -87,7 +87,7 @@ export function createFormHandler(imageManager, imageList) {
     setFieldValidity(
       nameInput,
       isValid,
-      isValid ? "" : "name must be between 2 and 50 characters",
+      isValid ? "" : "name must be between 2 and 50 characters"
     );
     return isValid;
   }
@@ -219,6 +219,15 @@ export function createFormHandler(imageManager, imageList) {
     nameInput.focus();
   }
 
+  function destroy() {
+    form.removeEventListener("submit", handleSubmit);
+    fileInput.removeEventListener("change", handleFileChange);
+    nameInput.removeEventListener("input", validateName);
+    fileInput.removeEventListener("change", validateFile);
+    openModalButton.removeEventListener("click", handleClickAddYourImage);
+    modalOverlay.removeEventListener("click", handleOverlayClick);
+  }
+
   setupEventListeners();
 
   return {
@@ -231,5 +240,6 @@ export function createFormHandler(imageManager, imageList) {
     set imageList(instance) {
       imageList = instance;
     },
+    destroy,
   };
 }

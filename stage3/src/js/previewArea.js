@@ -171,7 +171,7 @@ export function createPreviewArea(imageManager, onImageChange) {
 
   function clearPreviewContent() {
     const elementsToRemove = previewContent.querySelectorAll(
-      ".preview-controls, .preview-image, .preview-navigation, div[style*='flex: 1']",
+      ".preview-controls, .preview-image, .preview-navigation, div[style*='flex: 1']"
     );
 
     elementsToRemove.forEach((element) => element.remove());
@@ -217,6 +217,10 @@ export function createPreviewArea(imageManager, onImageChange) {
     return previewContent.getBoundingClientRect();
   }
 
+  function destroy() {
+    document.removeEventListener("keydown", state.keydownHandler);
+  }
+
   setupKeyboardNavigation();
   renderPlaceholder();
 
@@ -229,5 +233,6 @@ export function createPreviewArea(imageManager, onImageChange) {
     handleDrop,
     isPointInPreviewArea,
     getPreviewAreaBounds,
+    destroy,
   };
 }

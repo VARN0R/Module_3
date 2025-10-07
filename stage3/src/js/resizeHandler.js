@@ -8,16 +8,20 @@ import {
 } from "./constants.js";
 
 export function createResizeHandler() {
+  const onSelectStart = (e) => e.preventDefault();
+
+  const onScroll = () => {
+    if (window.imageListInstance) {
+      window.imageListInstance.handleScroll();
+    }
+  };
+
   function setupEventListeners() {
     resizeHandle.addEventListener("mousedown", startResize);
     document.addEventListener("mousemove", handleResize);
     document.addEventListener("mouseup", endResize);
-    resizeHandle.addEventListener("selectstart", (e) => e.preventDefault());
-    imageGrid.addEventListener("scroll", () => {
-      if (window.imageListInstance) {
-        window.imageListInstance.handleScroll();
-      }
-    });
+    resizeHandle.addEventListener("selectstart", onSelectStart);
+    imageGrid.addEventListener("scroll", onScroll);
   }
 
   function setDefaultSizes() {
@@ -130,6 +134,14 @@ export function createResizeHandler() {
     );
   }
 
+  function destroy() {
+    resizeHandle.removeEventListener("mousedown", startResize);
+    document.removeEventListener("mousemove", handleResize);
+    document.removeEventListener("mouseup", endResize);
+    resizeHandle.removeEventListener("selectstart", onSelectStart);
+    imageGrid.removeEventListener("scroll", onScroll);
+  }
+
   setupEventListeners();
   setDefaultSizes();
 
@@ -140,5 +152,6 @@ export function createResizeHandler() {
     handleWindowResize,
     getMinSizes,
     canResize,
+    destroy,
   };
 }

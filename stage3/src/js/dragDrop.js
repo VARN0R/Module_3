@@ -131,6 +131,17 @@ export function createDragDrop(imageList, previewArea, onImageSelect) {
     element.draggable = true;
   }
 
+  function destroy() {
+    imageListContainer.removeEventListener("dragstart", handleDragStart);
+    imageListContainer.removeEventListener("drag", handleDrag);
+    imageListContainer.removeEventListener("dragend", handleDragEnd);
+
+    previewContainer.removeEventListener("dragover", handleDragOver);
+    previewContainer.removeEventListener("drop", handleDrop);
+    previewContainer.removeEventListener("dragenter", handleDragEnter);
+    previewContainer.removeEventListener("dragleave", handleDragLeave);
+  }
+
   setupEventListeners();
 
   return {
@@ -138,5 +149,6 @@ export function createDragDrop(imageList, previewArea, onImageSelect) {
     getDraggedElement,
     disableDrag,
     enableDrag,
+    destroy,
   };
 }
